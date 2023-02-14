@@ -43,7 +43,8 @@ class ImageService
         if (strpos($url, $this->urlPrefix) !== 1) {
             return null;
         }
-        $relativeUrl = '/' . trim(str_replace($this->urlPrefix,  '', $url), '/');
+
+        $relativeUrl = trim(str_replace('/' . $this->urlPrefix,  '', $url), '/');
         $rootDir = getcwd();
         ['sourcePath' => $sourcePath, 'modifierConfig' => $modifierConfig] = $this->parseUrl($rootDir, $relativeUrl);
         return $this->run($rootDir, $relativeUrl, $sourcePath, $modifierConfig);
@@ -51,7 +52,6 @@ class ImageService
 
     private function run(string $rootDir, string $relativeUrl, string $sourcePath, array  $modifierConfig)
     {
-
         if (!file_exists($rootDir .  $this->sourceDir . $sourcePath)) {
             return null;
         }
