@@ -51,10 +51,11 @@ class ImageService
 
     private function run(string $rootDir, string $relativeUrl, string $sourcePath, array  $modifierConfig)
     {
-        if (!file_exists($rootDir .  $this->sourceDir . $sourcePath)) {
-            return null;
-        }
+   
         $mimeContentType = mime_content_type($rootDir .  $this->sourceDir . $sourcePath);
+        if (!file_exists($rootDir .  $this->sourceDir . $sourcePath)) {
+
+        }
         if (!str_starts_with($mimeContentType, 'image')) {
             return null;
         }
@@ -103,6 +104,10 @@ class ImageService
     private function getFormatModifier(string $rootDir, string $sourcePath, string $modifiers, array $filenameParts) : array
     {
         $targetExtension = array_pop($filenameParts);
+
+        if (file_exists($rootDir . $this->sourceDir . $sourcePath)) {
+            return [$modifiers, $sourcePath];
+        }
         if (!file_exists($rootDir . $this->sourceDir . str_replace('.'. $targetExtension, '', $sourcePath))) {
             return [$modifiers, $sourcePath];
         }
