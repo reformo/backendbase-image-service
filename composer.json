@@ -21,6 +21,6 @@
         }
     },
     "scripts": {
-        "webserver": "php -S 0.0.0.0:9000 server.php"
+        "start-dev-server": "php -S 0.0.0.0:9000 server.php"
     }
 }
