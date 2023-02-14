@@ -51,11 +51,11 @@ class ImageService
 
     private function run(string $rootDir, string $relativeUrl, string $sourcePath, array  $modifierConfig)
     {
-   
-        $mimeContentType = mime_content_type($rootDir .  $this->sourceDir . $sourcePath);
-        if (!file_exists($rootDir .  $this->sourceDir . $sourcePath)) {
 
+        if (!file_exists($rootDir .  $this->sourceDir . $sourcePath)) {
+            return null;
         }
+        $mimeContentType = mime_content_type($rootDir .  $this->sourceDir . $sourcePath);
         if (!str_starts_with($mimeContentType, 'image')) {
             return null;
         }
