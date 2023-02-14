@@ -44,7 +44,7 @@ class ImageService
             return null;
         }
 
-        $relativeUrl = trim(str_replace('/' . $this->urlPrefix,  '', $url), '/');
+        $relativeUrl = trim(str_replace('/' . $this->urlPrefix .'/',  '/', $url), '/');
         $rootDir = getcwd();
         ['sourcePath' => $sourcePath, 'modifierConfig' => $modifierConfig] = $this->parseUrl($rootDir, $relativeUrl);
         return $this->run($rootDir, $relativeUrl, $sourcePath, $modifierConfig);
