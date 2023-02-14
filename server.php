@@ -4,6 +4,7 @@ if (PHP_SAPI !== 'cli-server') {
     die('this is only for the php development server');
 }
 $fileFullPath = getcwd().'/webroot'.$_SERVER['SCRIPT_NAME'];
+
 if (is_file($fileFullPath)) {
     header('Content-Type: '. mime_content_type($fileFullPath));
     die(file_get_contents($fileFullPath));

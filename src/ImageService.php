@@ -51,19 +51,19 @@ class ImageService
 
     private function run(string $rootDir, string $relativeUrl, string $sourcePath, array  $modifierConfig)
     {
-        if (!file_exists($rootDir . $sourcePath)) {
+        if (!file_exists($rootDir .  $this->sourceDir . $sourcePath)) {
             return null;
         }
-        $mimeContentType = mime_content_type($rootDir . $sourcePath);
+        $mimeContentType = mime_content_type($rootDir .  $this->sourceDir . $sourcePath);
         if (!str_starts_with($mimeContentType, 'image')) {
             return null;
         }
         $payload = [
             'rootDir' => $rootDir,
             'tmpDir' => sys_get_temp_dir(),
-            'targetFile' => $rootDir . '/' . $this->urlPrefix . $relativeUrl,
-            'sourceFile' => $rootDir . $sourcePath,
-            'sourceFileName' => basename($rootDir . $sourcePath),
+            'targetFile' => $rootDir . $this->sourceDir. '/' . $this->urlPrefix . $relativeUrl,
+            'sourceFile' => $rootDir .  $this->sourceDir .$sourcePath,
+            'sourceFileName' => basename($rootDir .  $this->sourceDir .$sourcePath),
             'sourceContentType' => $mimeContentType,
             'modifierConfig' => $modifierConfig,
         ];
@@ -82,11 +82,16 @@ class ImageService
         $trimmedPath = trim($url, '/');
 
         [$modifiers,] = explode('/', $trimmedPath);
+        if (is_dir($rootDir . $this->sourceDir . '/' .$modifiers)) {
+            $modifiers = '';
+        }
+
         $sourcePath = str_replace($modifiers, '', $trimmedPath);
         if (str_starts_with(trim($this->sourceDir, '/'), $modifiers)) {
             $sourcePath = '/' . $modifiers . $sourcePath;
             $modifiers = 's[default]:r[default]';
         }
+
         $filename = basename($sourcePath);
         $filenameParts = explode('.', $filename);
         if (count($filenameParts) > 2) {
@@ -98,7 +103,7 @@ class ImageService
     private function getFormatModifier(string $rootDir, string $sourcePath, string $modifiers, array $filenameParts) : array
     {
         $targetExtension = array_pop($filenameParts);
-        if (!file_exists($rootDir . str_replace('.'. $targetExtension, '', $sourcePath))) {
+        if (!file_exists($rootDir . $this->sourceDir . str_replace('.'. $targetExtension, '', $sourcePath))) {
             return [$modifiers, $sourcePath];
         }
         if (array_key_exists($targetExtension, Convert::$validFormats)) {
