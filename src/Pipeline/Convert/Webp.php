@@ -33,7 +33,9 @@ class Webp implements Converter
         try {
             $newSourceFile = str_contains($sourceFile, '.wepb') ? $sourceFile : $sourceFile.'.webp';
             WebPConvert::convert($sourceFile, $newSourceFile, $options);
-            unlink($sourceFile);
+            if ($newSourceFile !== $sourceFile) {
+                unlink($sourceFile);
+            }
             return $newSourceFile;
         } catch (ConversionFailedException $exception) {
         }
