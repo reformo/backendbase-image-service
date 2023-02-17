@@ -15,9 +15,11 @@ class Avif implements Converter
         if (PHP_VERSION_ID < 81000 || mime_content_type($sourceFile) === 'image/avif') {
             return $sourceFile;
         }
+        $newSourceFile = str_contains($sourceFile, '.avif') ? $sourceFile : $sourceFile.'.avif';
         $image = $this->createImageFromFilename($sourceFile);
-        imageavif($image, $sourceFile.'.avif', 0, -1);
+        imageavif($image, $newSourceFile, 0, -1);
+        unlink($sourceFile);
         imagedestroy($image);
-        return $sourceFile.'avif';
+        return $newSourceFile;
     }
 }
