@@ -62,7 +62,7 @@ class ImageService
         $payload = [
             'rootDir' => $rootDir,
             'tmpDir' => sys_get_temp_dir(),
-            'targetFile' => $rootDir . $this->sourceDir. '/' . $this->urlPrefix . $relativeUrl,
+            'targetFile' => str_replace('//', '/', $rootDir . $this->sourceDir. '/' . $this->urlPrefix .'/'. $relativeUrl),
             'sourceFile' => $rootDir .  $this->sourceDir .$sourcePath,
             'sourceFileName' => basename($rootDir .  $this->sourceDir .$sourcePath),
             'sourceContentType' => $mimeContentType,
