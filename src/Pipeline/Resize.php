@@ -27,7 +27,7 @@ class Resize implements PipeInterface
         if (array_key_exists('function', $resizeStrategy)) {
             $size = $payload['modifierConfig']['size'][$resizeStrategy['dimensionKey']];
             $image->{$resizeStrategy['function']}($size);
-            $image->save($payload['tmpFile']);
+            $image->save($payload['tmpFile'], null, null);
         }
         return $payload;
     }

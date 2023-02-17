@@ -11,8 +11,7 @@ class Avif implements Converter
 
     public function convert(string $sourceFile): string
     {
-
-        if (PHP_VERSION_ID < 81000 || mime_content_type($sourceFile) === 'image/avif') {
+        if (PHP_VERSION_ID < 80100 || mime_content_type($sourceFile) === 'image/avif') {
             return $sourceFile;
         }
         $newSourceFile = str_contains($sourceFile, '.avif') ? $sourceFile : $sourceFile.'.avif';
