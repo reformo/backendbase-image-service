@@ -16,7 +16,7 @@ class Avif implements Converter
             return $sourceFile;
         }
         $image = $this->createImageFromFilename($sourceFile);
-        imageavif($image, $sourceFile.'avif', 0, -1);
+        imageavif($image, $sourceFile.'.avif', 0, -1);
         imagedestroy($image);
         return $sourceFile.'avif';
     }
