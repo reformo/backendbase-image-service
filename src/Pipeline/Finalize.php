@@ -13,7 +13,7 @@ class Finalize implements PipeInterface
     {
         $dirname = dirname($payload['targetFile']);
         if (!is_dir($dirname)) {
-            if (!mkdir($dirname, 0744, true) && !is_dir($dirname)) {
+            if (!mkdir($dirname, 0755, true) && !is_dir($dirname)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $dirname));
             }
         }

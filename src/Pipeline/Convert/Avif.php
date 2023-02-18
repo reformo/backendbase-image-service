@@ -16,7 +16,7 @@ class Avif implements Converter
         }
         $newSourceFile = str_contains($sourceFile, '.avif') ? $sourceFile : $sourceFile.'.avif';
         $image = $this->createImageFromFilename($sourceFile);
-        imageavif($image, $newSourceFile, 65, 10);
+        imageavif($image, $newSourceFile, 85, 10);
         if ($newSourceFile !== $sourceFile) {
             unlink($sourceFile);
         }
