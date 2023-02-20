@@ -25,7 +25,7 @@ class Resize implements PipeInterface
         $image = new Imagick($payload['tmpFile']);
         $resizeStrategy = $payload['modifierConfig']['resizeStrategy'];
         $size = $payload['modifierConfig']['size'][$resizeStrategy['dimensionKey']];
-        $image->resizeImage($size, $size, imagick::FILTER_CATROM, 1, false);
+        $image->resizeImage($size, $size, imagick::FILTER_CATROM, 1, true);
         $image->writeImage($payload['tmpFile']);
         return $payload;
     }

@@ -17,6 +17,7 @@ class Avif implements Converter
         $image = new Imagick($sourceFile);
         $image->setImageFormat('AVIF');
         $image->setOption('heic:lossless', 'true');
+        $image->setImageAlpha(100);
         $image->writeImage($newSourceFile);
         if ($newSourceFile !== $sourceFile) {
             unlink($sourceFile);
