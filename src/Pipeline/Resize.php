@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Backendbase\ImageService\Pipeline;
 
 use Backendbase\Utility\Pipeline\PipeInterface;
-use Gumlet\ImageResize;
+use Imagick;
 
 class Resize implements PipeInterface
 {
@@ -22,13 +22,11 @@ class Resize implements PipeInterface
     ];
     public function __invoke($payload)
     {
-        $image = new ImageResize($payload['tmpFile']);
+        $image = new Imagick($payload['tmpFile']);
         $resizeStrategy = $payload['modifierConfig']['resizeStrategy'];
-        if (array_key_exists('function', $resizeStrategy)) {
-            $size = $payload['modifierConfig']['size'][$resizeStrategy['dimensionKey']];
-            $image->{$resizeStrategy['function']}($size);
-            $image->save($payload['tmpFile'], null, null);
-        }
+        $size = $payload['modifierConfig']['size'][$resizeStrategy['dimensionKey']];
+        $image->resizeImage($size, $size, imagick::FILTER_CATROM, 1, true);
+        $image->writeImage($payload['tmpFile']);
         return $payload;
     }
 
@@ -46,20 +44,20 @@ class Resize implements PipeInterface
             [, $size] = explode('-', $modifier);
             [$width, $height] = explode('x', $size);
             return [
-                'width' => $width,
-                'height' => $height
+                'width' => (int) $width,
+                'height' => (int) $height
             ];
         }
         if (array_key_exists($modifier, $allowedImageSizes)) {
             return [
-                'width' => $allowedImageSizes[$modifier],
-                'height' => $allowedImageSizes[$modifier]
+                'width' => (int) $allowedImageSizes[$modifier],
+                'height' => (int) $allowedImageSizes[$modifier]
             ];
         }
 
         return [
-            'width' => $allowedImageSizes['default'],
-            'height' => $allowedImageSizes['default']
+            'width' => (int) $allowedImageSizes['default'],
+            'height' => (int) $allowedImageSizes['default']
         ];
     }
 

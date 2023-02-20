@@ -122,8 +122,8 @@ class ImageService
         $modifierConfig = [
             'format' => '\\'.Convert::getConverterType('original'),
             'size' => [
-                'width' => $this->allowedImageSizes['default'],
-                'height' => $this->allowedImageSizes['default']
+                'width' => (int) $this->allowedImageSizes['default'],
+                'height' => (int) $this->allowedImageSizes['default']
             ],
             'resizeStrategy' => Resize::getResizeStrategyType($this->resizeStrategy),
         ];

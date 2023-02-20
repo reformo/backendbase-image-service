@@ -4,40 +4,31 @@ declare(strict_types=1);
 
 namespace Backendbase\ImageService\Pipeline\Convert;
 
-use WebPConvert\WebPConvert;
-use WebPConvert\Convert\Exceptions\ConversionFailedException;
+use Imagick;
 
 class Webp implements Converter
 {
-
-    use ImageCreateUtility;
-
     public function convert(string $sourceFile): string
     {
         if (mime_content_type($sourceFile) === 'image/webp') {
             return $sourceFile;
         }
-        $options = [
-            'png' => [
-                'encoding' => 'auto',
-                'near-lossless' => 60,
-                'quality' => 90,
-            ],
-            'jpeg' => [
-                'encoding' => 'auto',
-                'quality' => 'auto',
-                'max-quality' => 85,
-                'default-quality' => 75,
-            ]
-        ];
         try {
             $newSourceFile = str_contains($sourceFile, '.wepb') ? $sourceFile : $sourceFile.'.webp';
-            WebPConvert::convert($sourceFile, $newSourceFile, $options);
+            $image = new Imagick($sourceFile);
+            $image->setImageFormat('WEBP');
+            $image->setOption('webp:image-hint', 'photo');
+            $image->setOption('webp:method', '4');
+            $image->setOption('webp:alpha-quality', '100');
+            $image->setOption('webp:use-sharp-yuv', 'true');
+            $image->setOption('webp:auto-filter', 'true');
+            $imageFileContent = $image->getImageBlob();
+            file_put_contents($newSourceFile, $imageFileContent);
             if ($newSourceFile !== $sourceFile) {
                 unlink($sourceFile);
             }
             return $newSourceFile;
-        } catch (ConversionFailedException $exception) {
+        } catch (\Exception $exception) {
         }
         return $sourceFile;
     }

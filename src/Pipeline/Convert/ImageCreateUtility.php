@@ -12,9 +12,7 @@ trait ImageCreateUtility
 
     private static array $mimeFunctionMappings = [
       'image/jpeg' => 'imagecreatefromjpeg',
-    //  'image/gif' => 'imagecreatefromgif',
       'image/png' => 'imagecreatefrompng',
-    //  'image/bmp' => 'imagecreatefrombmp',
       'image/webp' => 'imagecreatefromwebp',
       'image/avif' => 'imagecreatefromavif',
     ];
