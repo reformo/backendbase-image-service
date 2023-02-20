@@ -16,8 +16,9 @@ class Avif implements Converter
         $newSourceFile = str_contains($sourceFile, '.avif') ? $sourceFile : $sourceFile.'.avif';
         $image = new Imagick($sourceFile);
         $image->setImageFormat('AVIF');
+        $image->setCompressionQuality(100);
         $image->setOption('heic:lossless', 'true');
-        $image->setImageAlphaChannel(imagick::ALPHACHANNEL_ACTIVATE);
+        $image->setImageAlphaChannel(imagick::ALPHACHANNEL_ON);
         $image->writeImage($newSourceFile);
         if ($newSourceFile !== $sourceFile) {
             unlink($sourceFile);
