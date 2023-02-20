@@ -1,4 +1,4 @@
-apt-get build-essential install webp pngquant optipng pngcrush jpegoptim gifsicle libwebp-dev libheif-dev libjpeg-dev libpng-dev
+apt-get install build-essential webp pngquant optipng pngcrush jpegoptim gifsicle libwebp-dev libheif-dev libjpeg-dev libpng-dev
 wget http://www.jonof.id.au/files/kenutils/pngout-20200115-linux.tar.gz
 tar -xf pngout-20200115-linux.tar.gz
 rm pngout-20200115-linux.tar.gz
