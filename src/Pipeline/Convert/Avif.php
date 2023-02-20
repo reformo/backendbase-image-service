@@ -18,7 +18,6 @@ class Avif implements Converter
         $image->setImageFormat('AVIF');
         $image->setCompressionQuality(100);
         $image->setOption('heic:lossless', 'true');
-        $image->setImageAlphaChannel(imagick::ALPHACHANNEL_ON);
         $image->writeImage($newSourceFile);
         if ($newSourceFile !== $sourceFile) {
             unlink($sourceFile);
