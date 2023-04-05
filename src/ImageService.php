@@ -63,6 +63,7 @@ class ImageService
             'rootDir' => $rootDir,
             'tmpDir' => sys_get_temp_dir(),
             'targetFile' => str_replace('//', '/', $rootDir . $this->sourceDir. '/' . $this->urlPrefix .'/'. $relativeUrl),
+            'pidFile' => str_replace('//', '/', $rootDir . $this->sourceDir. '/' . $this->urlPrefix .'/'. $relativeUrl . '.pid'),
             'sourceFile' => $rootDir .  $this->sourceDir .$sourcePath,
             'sourceFileName' => basename($rootDir .  $this->sourceDir .$sourcePath),
             'sourceContentType' => $mimeContentType,

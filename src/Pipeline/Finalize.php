@@ -19,6 +19,7 @@ class Finalize implements PipeInterface
         }
         copy($payload['tmpFile'], $payload['targetFile']);
         unlink($payload['tmpFile']);
+        unlink($payload['pidFile']);
         return $payload;
     }
 }
