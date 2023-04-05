@@ -59,16 +59,20 @@ class ImageService
         if (!str_starts_with($mimeContentType, 'image')) {
             return null;
         }
+        $tmpDir = sys_get_temp_dir();
         $payload = [
             'rootDir' => $rootDir,
-            'tmpDir' => sys_get_temp_dir(),
+            'tmpDir' => $tmpDir,
             'targetFile' => str_replace('//', '/', $rootDir . $this->sourceDir. '/' . $this->urlPrefix .'/'. $relativeUrl),
-            'pidFile' => str_replace('//', '/', $rootDir . $this->sourceDir. '/' . $this->urlPrefix .'/'. $relativeUrl . '.pid'),
+            'pidFile' => $tmpDir . '/'. md5($rootDir . $this->sourceDir. '/' . $this->urlPrefix .'/'. $relativeUrl) . '.pid',
             'sourceFile' => $rootDir .  $this->sourceDir .$sourcePath,
             'sourceFileName' => basename($rootDir .  $this->sourceDir .$sourcePath),
             'sourceContentType' => $mimeContentType,
             'modifierConfig' => $modifierConfig,
         ];
+        if (file_exists($payload['pidFile'])) {
+            return null;
+        }
         return $this->pipeline
             ->pipe(new CreateTmpFile())
             ->pipe(Convert::create($modifierConfig['format']))
